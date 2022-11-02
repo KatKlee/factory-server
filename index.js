@@ -2,22 +2,33 @@ import './config.js'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import { addNewMachine } from './controller/machineController.js'
+import { addNewMachine, getAllMachines } from './controller/machineController.js'
+import { getAllFactoryData } from './controller/factoryController.js'
+import { addNewWorker, getAllWorkers } from './controller/workerController.js'
 
 
-// Falls ihr multer oder den express validator nutzt, importiert diese einfach auch
+// set up port to 9898
 const PORT = process.env.PORT
+// start a new express application
 const app = express()
 
+// middleware
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors()) // Was macht cors nochmal?
 app.use(express.json())
 
-// hier ist genung Platz für alle eure Routen
+// all my routes
 app.get('/', (req, res) => {
     res.status(200).send('Alles OKAY')
 })
+
+app.get('/api/factory', getAllFactoryData)
+
+app.get('/api/machines', getAllMachines)
 app.post('/api/machines', addNewMachine)
+
+app.get('api/workers', getAllWorkers)
+app.post('api/workers', addNewWorker)
 
 
 // dann werfen wir den Server mal an

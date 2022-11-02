@@ -1,9 +1,24 @@
-import { saveMachine } from "../services/machineService.js"
+import { saveMachine, allMachines } from "../services/machineService.js"
 
 export const addNewMachine = async (req, res) => {
-    const machine = req.body
-    console.log(req.body) // Validierung?
-    const addResult = await saveMachine(machine)
-    console.log(addResult)
-    res.status(200).json({ state: true })
+    try {
+        const machine = req.body // Validierung?
+        console.log(req.body)
+        const addResult = await saveMachine(machine)
+        console.log(addResult)
+        res.status(200).json({ state: true })
+    } catch (error) {
+        res.status(500).send('addNewMachine failed')
+        console.log(error)
+    }
+}
+
+export const getAllMachines = async (req, res) => {
+    try {
+        const machines = await allMachines()
+        res.status(200).json(machines)
+    } catch (error) {
+        res.status(500).send('getAllMachines failed')
+        console.log(error)
+    }
 }
