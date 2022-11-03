@@ -15,3 +15,12 @@ export const allMachines = async () => {
     const machinesResult = await db.collection('machines').find().toArray()
     return machinesResult
 }
+
+export const getMachinesNum = async () => {
+    // connection and access to database
+    const db = await getDB()
+    // result from count in collection
+    const numResult = await db.collection('machines').countDocuments()
+    console.log(numResult)
+    return numResult
+}

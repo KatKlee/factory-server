@@ -1,4 +1,4 @@
-import { saveMachine, allMachines } from "../services/machineService.js"
+import { saveMachine, allMachines, getMachinesNum } from "../services/machineService.js"
 
 export const addNewMachine = async (req, res) => {
     try {
@@ -13,12 +13,23 @@ export const addNewMachine = async (req, res) => {
     }
 }
 
-export const getAllMachines = async (req, res) => {
+export const getAllMachines = async (_, res) => {
     try {
         const machines = await allMachines()
         res.status(200).json(machines)
     } catch (error) {
         res.status(500).send('getAllMachines failed')
+        console.log(error)
+    }
+}
+
+// get number of machines
+export const getNumberOfMachines = async (_, res) => {
+    try {
+        const machinesNum = await getMachinesNum()
+        res.status(200).json(machinesNum)
+    } catch (error) {
+        res.status(500).send('getNumberOfMachines failed')
         console.log(error)
     }
 }

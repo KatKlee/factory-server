@@ -1,5 +1,6 @@
-import { allWorkers, saveWorker } from "../services/workerService.js"
+import { allWorkers, getWorkersNum, saveWorker } from "../services/workerService.js"
 
+// add a new worker
 export const addNewWorker = async (req, res) => {
     try {
         const worker = req.body // Validierung fehlt
@@ -12,8 +13,8 @@ export const addNewWorker = async (req, res) => {
     }
 }
 
-
-export const getAllWorkers = async (req, res) => {
+// get data of all workers
+export const getAllWorkers = async (_, res) => {
     try {
         const workers = await allWorkers()
         res.status(200).json(workers)
@@ -22,3 +23,15 @@ export const getAllWorkers = async (req, res) => {
         console.log(error)
     }
 }
+
+// get number of workers
+export const getNumberOfWorkers = async (req, res) => {
+    try {
+        const workersNum = await getWorkersNum()
+        res.status(200).json(workersNum)
+    } catch (error) {
+        res.status(500).send('getNumberOfWorkers failed')
+        console.log(error)
+    }
+}
+// wie bekomme ich das in die Factory eingespeist?
