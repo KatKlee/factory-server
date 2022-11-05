@@ -1,11 +1,19 @@
+import { checkCredit, decreaseCredit } from "../util/buying.js"
 import { getDB } from "../util/db.js"
 
-export const saveMachine = async (machine) => {
-    // connection and access to database
-    const db = await getDB()
-    // result from inserting data to the collection
-    const saveResult = await db.collection('machines').insertOne(machine)
-    return saveResult
+const PRICE = 6
+
+export const buyMachine = async (machine) => {
+    if (await checkCredit(PRICE)) {
+        // connection and access to database
+        const db = await getDB()
+        // result from inserting data to the collection
+        const saveResult = await db.collection('machines').insertOne(machine)
+        await decreaseCredit(PRICE)
+        return saveResult
+    } else {
+        throw new Error('no credit')
+    }
 }
 
 export const allMachines = async () => {

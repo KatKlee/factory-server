@@ -4,6 +4,7 @@ import { allWorkers, getWorkersNum, saveWorker } from "../services/workerService
 export const addNewWorker = async (req, res) => {
     try {
         const worker = req.body // Validierung fehlt
+        worker.working = false
         const addResult = await saveWorker(worker)
         console.log(addResult)
         res.status(200).json({ state: true })

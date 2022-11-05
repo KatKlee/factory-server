@@ -1,14 +1,20 @@
+import { checkCredit, decreaseCredit } from "../util/buying.js"
 import { getDB } from "../util/db.js"
 
+const PRICE = 2
+
 export const saveWorker = async (worker) => {
-    // connection and access to database
-    const db = await getDB()
-    // result from inserting data to the collection
-    const saveResult = await db.collection('workers').insertOne(worker)
-    return saveResult
+    if (await checkCredit(PRICE)) {
+        // connection and access to database
+        const db = await getDB()
+        // result from inserting data to the collection
+        const saveResult = await db.collection('workers').insertOne(worker)
+        await decreaseCredit(PRICE)
+        return saveResult
+    } else {
+        throw new Error('no credit')
+    }
 }
-// Abzug von 2 Geld einbauen
-// Wie? im Backend oder im Frontend?
 
 
 export const allWorkers = async () => {
